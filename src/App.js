@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import Counter from "./Counter";
+import { createStore } from "redux";
+import { DECREASE, INCREASE, RESET } from "./actions";
+import reducer from "./reducers";
+import { Provider } from "react-redux";
 
-function App() {
+//setup initial state
+const defaultState = {
+  count: 76,
+  name: "bob",
+};
+
+//setup reducer
+
+//setup store
+const store = createStore(reducer, defaultState);
+store.dispatch({ type: RESET });
+store.dispatch({ type: DECREASE });
+store.dispatch({ type: INCREASE });
+store.dispatch({ type: INCREASE });
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    // Provider ensures that Counter will get everything which store has to offer
+    <Provider store={store}>
+      <Counter state={store.getState()} />
+    </Provider>
   );
-}
+};
 
 export default App;
